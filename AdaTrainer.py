@@ -697,10 +697,8 @@ class AdaTrainer(Trainer):
                 self.control.should_training_stop = True
 
             self.control = self.callback_handler.on_epoch_end(args, self.state, self.control)
-            # 如果在这个之前应该是不要验证或者说，不要保存的
             from peft import PeftModel
             if isinstance(model, PeftModel):
-                # 如果这里是adaia3allocator的话，就要这样
                 if getattr(model.base_model, "is_adaia3double", None) is not None:
                     if self.state.global_step < self.state.max_steps - model.base_model.is_adadhp():
                         self.control.should_save = False

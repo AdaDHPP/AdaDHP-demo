@@ -144,7 +144,6 @@ class AdaDHPLinear(nn.Module, AdaDHPLayer):
 
                 if isinstance(self.base_layer, torch.nn.Linear):
                     if self.base_layer.bias is not None:
-                        # 包含bias
                         result = torch.matmul(x, ((self.base_layer.weight * my_l * my_r).T).to(x.dtype)) + self.base_layer.bias
                         # result = torch.matmul(x * my_l.to(x.dtype), ((self.base_layer.weight).T)) * (
                         #     (my_r.T).to(x.dtype)) + self.base_layer.bias
@@ -264,7 +263,7 @@ class RankAllocator:
                     vector_ipt[name_m].append(comb_ipt)
             if f"my_r.{self.adapter_name}" in n and p.requires_grad:
                 entry_ipt = self._element_score(n)
-                comb_ipt = torch.mean(entry_ipt, dim=1, keepdim=True)  # 这两个东西是不是要反过来
+                comb_ipt = torch.mean(entry_ipt, dim=1, keepdim=True)
                 name_m = n.replace("_r", "%s")
                 if name_m not in vector_ipt:
                     vector_ipt[name_m] = [comb_ipt]
@@ -274,7 +273,7 @@ class RankAllocator:
         all_score = []
         # Calculate the score for each triplet
         for name_m in vector_ipt:
-            ipt_AB = torch.cat(vector_ipt[name_m], dim=0)  # 先平均再平均，还是？
+            ipt_AB = torch.cat(vector_ipt[name_m], dim=0)
             sum_ipt = ipt_AB.mean()
             triplet_ipt[name_m] = sum_ipt.view(-1, 1)
             all_score.append(sum_ipt.view(-1))

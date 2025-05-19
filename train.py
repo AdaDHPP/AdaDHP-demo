@@ -688,7 +688,6 @@ def main():
 
     logger.info(f"\nUsing the consistent learning rate for all parameters\n\n")
     optimizer = AdamW(model.parameters(), lr=training_args.learning_rate, eps=1e-8)
-    # 这个地方算的有点问题
     # num_training_steps = len(train_dataset) * training_args.num_train_epochs // (
     #         training_args.gradient_accumulation_steps * training_args.per_device_train_batch_size) if training_args.max_steps == -1 else training_args.max_steps
 
