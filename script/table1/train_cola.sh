@@ -25,7 +25,7 @@ do
       --load_best_model_at_end \
       --save_total_limit 1 \
       --tinit 100 \
-      --tfinal 800 \
+      --tfinal 920 \
       --deltaT 10 \
       --target_num 96 \
       --output_dir adadhp_t5-base/${task}_lr${lr}_seed${seed} \
